@@ -8,26 +8,22 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-import { Photo } from 'common/types';
 import { useGetImages } from 'api/hooks/useGetImages';
+import { Photo } from 'common/types';
 
 const { width } = Dimensions.get('window');
 const itemMargin = 10;
 
 export const ListImages: FC = () => {
-  const { data, fetchNextPage, isFetchingNextPage } = useGetImages();
-  const flatData = data?.pages?.flatMap(page => page.data);
-  console.log(
-    'urgen flatData',
-    flatData?.map(i => i.data),
-  );
   const componentStyle = styles();
+  const { data, fetchNextPage, isFetchingNextPage } = useGetImages();
+  const flatData = data?.pages?.flatMap(page => page?.data || []);
 
   const renderItem = ({ item }: { item: Photo }) => {
     return (
       <View style={{ ...componentStyle.itemContainer }}>
         <Image
-          source={{ uri: item?.urls?.small }}
+          source={{ uri: item?.image }}
           style={{ ...componentStyle.image }}
         />
       </View>
@@ -36,7 +32,7 @@ export const ListImages: FC = () => {
   return (
     <View style={{ ...componentStyle.container }}>
       <FlatList
-        data={flatData}
+        data={flatData?.flatMap(item => item || []) || []}
         numColumns={2}
         renderItem={renderItem}
         keyExtractor={item => item?.id?.toString()}

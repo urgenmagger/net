@@ -1,9 +1,7 @@
-import {
-  InfiniteData,
-  QueryFunctionContext,
-  useInfiniteQuery,
-} from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 
+import { LIMIT } from 'common/C';
+import { ImageApiResponse } from 'common/types';
 import { imageService } from '../services/images.service';
 
 interface ReturnHook {
@@ -12,35 +10,29 @@ interface ReturnHook {
   refetch?: () => void;
   fetchNextPage?: () => void;
   isFetchingNextPage?: boolean;
-  data: InfiniteData<any, unknown> | undefined;
+  data: InfiniteData<ImageApiResponse, unknown> | undefined;
 }
 
 export const useGetImages = (): ReturnHook => {
-  const fetchPhotos = async ({ pageParam = 0 }) => {
+  const fetchPhotos = async ({ pageParam = 1 }) => {
     try {
-      const response = await imageService.get(pageParam);
+      const response = await imageService.get(pageParam, LIMIT);
 
-      if (!response) {
-        throw new Error('Failed to fetch data');
-      }
+      const totalItems = response?.data?.data?.total || 0;
+      const limitPerPage = response?.data?.data?.limit || 1;
+      const currentPage = response?.data?.data?.page || 0;
 
-      const paginationLinks = response.headers.link;
+      const nextPage =
+        Math.ceil(totalItems / limitPerPage) > currentPage
+          ? currentPage + 1
+          : null;
 
-      // Check if paginationLinks is defined before splitting
-      const links = paginationLinks ? paginationLinks.split(', ') : [];
-      let nextPage = null;
-
-      // Find link for the next page
-      links.forEach(link => {
-        if (link.includes('rel="next"')) {
-          nextPage = link.split('; ')[0].slice(1, -1);
-        }
-      });
-
-      console.log('urgen nextPage', nextPage);
       return {
-        data: response?.data,
+        data: response?.data?.data?.data,
         nextPage,
+        total: totalItems,
+        page: currentPage,
+        limit: limitPerPage,
       };
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -64,6 +56,7 @@ export const useGetImages = (): ReturnHook => {
       fetchNextPage();
     }
   };
+
   return {
     data,
     error,

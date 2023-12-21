@@ -1,13 +1,22 @@
 import axios from 'axios';
-import { API_KEY, API_URL } from '../../common/C';
+
+import { API_URL, TOKEN } from 'common/C';
+import { ImageApiResponse, ImageServiceResponse } from 'common/types';
 
 export const imageService = {
-  async get(page: number) {
-    return axios.get(API_URL, {
-      params: {
-        page: page,
-        client_id: API_KEY,
+  async get(page: number, limit: number): Promise<ImageServiceResponse> {
+    const response = await axios.get<ImageApiResponse>(
+      `${API_URL}?page=${page}&limit=${limit}`,
+      {
+        headers: {
+          'app-id': TOKEN,
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
+
+    return {
+      data: response,
+    };
   },
 };
