@@ -1,6 +1,39 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
-    "esModuleInterop": true
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": ["es6"],
+    "module": "node16",
+    "moduleResolution": "node16",
+    "noEmit": true,
+    "target": "esnext",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "baseUrl": "src",
+    "strict": true
+  },
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ],
+  "baseUrl": "./src",
+  "paths": {
+    "navigation/*": ["navigation/*"],
+    "screens/*": ["screens/*"],
+    "storage/*": ["storage/*"],
+    "api/*": ["api/*"],
+    "common/*": ["common/*"],
+    "hooks/*": ["hooks/*"],
+    "modules/*": ["modules/*"],
+    "components/*": ["components/*"],
+    "utils/*": ["utils/*"],
+    "HOCs/*": ["HOCs/*"]
   }
 }

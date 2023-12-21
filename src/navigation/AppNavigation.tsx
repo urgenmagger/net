@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { RootStackList, Screens } from './types';
-import { Details } from '../screens/details/Details';
-import { MainScreen } from '../screens/main/MainScreen';
+import { Details } from 'screens/details/Details';
+import { MainScreen } from 'screens/main/MainScreen';
 
 const Stack = createNativeStackNavigator<RootStackList>();
 
@@ -19,6 +19,7 @@ export const AppNavigation = () => {
             component={MainScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen name={Screens.Main} component={MainScreen} />
           <Stack.Screen
             name={Screens.Details}
             component={Details}
