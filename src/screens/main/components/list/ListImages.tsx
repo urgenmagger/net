@@ -1,16 +1,26 @@
 import { FC } from 'react';
-import { View, Image, FlatList, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Image,
+  FlatList,
+  StyleSheet,
+  Dimensions,
+  ActivityIndicator,
+} from 'react-native';
 
 import { Photo } from 'common/types';
-
-interface Props {
-  data: Photo[] | undefined;
-}
+import { useGetImages } from 'api/hooks/useGetImages';
 
 const { width } = Dimensions.get('window');
 const itemMargin = 10;
 
-export const ListImages: FC<Props> = ({ data }) => {
+export const ListImages: FC = () => {
+  const { data, fetchNextPage, isFetchingNextPage } = useGetImages();
+  const flatData = data?.pages?.flatMap(page => page.data);
+  console.log(
+    'urgen flatData',
+    flatData?.map(i => i.data),
+  );
   const componentStyle = styles();
 
   const renderItem = ({ item }: { item: Photo }) => {
@@ -26,11 +36,20 @@ export const ListImages: FC<Props> = ({ data }) => {
   return (
     <View style={{ ...componentStyle.container }}>
       <FlatList
-        data={data}
+        data={flatData}
         numColumns={2}
         renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item?.id?.toString()}
         columnWrapperStyle={{ ...componentStyle.columnWrapper }}
+        showsHorizontalScrollIndicator={false}
+        onEndReached={fetchNextPage}
+        scrollEventThrottle={16}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={() =>
+          isFetchingNextPage ? (
+            <ActivityIndicator size="small" color="red" />
+          ) : null
+        }
       />
     </View>
   );
