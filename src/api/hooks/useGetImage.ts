@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { imageService } from '../services/images.sevice';
+
 import { Photo } from 'common/types';
+import { imageService } from '../services/images.service';
 
 const fetchPhotos = async ({
   page,

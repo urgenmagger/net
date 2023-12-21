@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -14,11 +13,6 @@ export const AppNavigation = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <>
-          <Stack.Screen
-            name={Screens.Root}
-            component={MainScreen}
-            options={{ headerShown: false }}
-          />
           <Stack.Screen name={Screens.Main} component={MainScreen} />
           <Stack.Screen
             name={Screens.Details}
