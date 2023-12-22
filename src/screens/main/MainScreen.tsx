@@ -1,24 +1,21 @@
-import { useGetImage } from 'api/hooks/useGetImage';
-import React, { FC } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { FC } from 'react';
+import { StatusBar, StyleSheet, View } from 'react-native';
 
-interface Props {}
+import { ListImages } from './components/list/ListImages';
 
-export const MainScreen: FC<Props> = () => {
+export const MainScreen: FC = () => {
   const componentStyle = styles();
-  const { data } = useGetImage(1, 10);
-  console.log(
-    'urgen data',
-    data?.map(i => i?.id),
-  );
   return (
     <View style={{ ...componentStyle.container }}>
-      <Text>Main</Text>
+      <StatusBar translucent backgroundColor="transparent" />
+      <ListImages />
     </View>
   );
 };
 
 const styles = () =>
   StyleSheet.create({
-    container: {},
+    container: {
+      flex: 1,
+    },
   });

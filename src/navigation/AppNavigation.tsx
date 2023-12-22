@@ -1,12 +1,13 @@
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { RootStackList, Screens } from './types';
 import { Details } from 'screens/details/Details';
 import { MainScreen } from 'screens/main/MainScreen';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const Stack = createNativeStackNavigator<RootStackList>();
+// const Stack = createNativeStackNavigator<RootStackList>();
+const Stack = createStackNavigator<RootStackList>();
 
 // корневой stack navigation
 export const AppNavigation = () => {
@@ -14,11 +15,6 @@ export const AppNavigation = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <>
-          <Stack.Screen
-            name={Screens.Root}
-            component={MainScreen}
-            options={{ headerShown: false }}
-          />
           <Stack.Screen name={Screens.Main} component={MainScreen} />
           <Stack.Screen
             name={Screens.Details}
