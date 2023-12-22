@@ -4,26 +4,45 @@ import {
   Image,
   FlatList,
   StyleSheet,
-  Dimensions,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-import { useGetImages } from 'api/hooks/useGetImages';
 import { Photo } from 'common/types';
+import { useGetImages } from 'api/hooks/useGetImages';
+import { RootStackNavigationProp, Screens } from 'navigation/types';
 
 export const ListImages: FC = () => {
   const componentStyle = styles();
-  const { data, fetchNextPage, isFetchingNextPage } = useGetImages();
+  const { data, fetchNextPage, isFetchingNextPage, isLoading } = useGetImages();
   const flatData = data?.pages?.flatMap(page => page?.data || []);
+
+  const navigation = useNavigation<RootStackNavigationProp<Screens.Details>>();
+
+  const handleGoDetails = (id: string) => {
+    navigation.navigate(Screens.Details, { photoId: id });
+  };
 
   const renderItem = ({ item }: { item: Photo }) => {
     return (
-      <View style={{ ...componentStyle.itemContainer }}>
-        <Image
-          source={{ uri: item?.image }}
-          style={{ ...componentStyle.image }}
-        />
-      </View>
+      <>
+        {isLoading ? (
+          <View style={{ ...componentStyle.itemContainer }}>
+            <ActivityIndicator size="small" color="red" />
+          </View>
+        ) : (
+          <TouchableOpacity
+            onPress={() => handleGoDetails(item?.id)}
+            style={{ ...componentStyle.itemContainer }}
+          >
+            <Image
+              source={{ uri: item?.image }}
+              style={{ ...componentStyle.image }}
+            />
+          </TouchableOpacity>
+        )}
+      </>
     );
   };
   return (
@@ -37,7 +56,7 @@ export const ListImages: FC = () => {
         showsHorizontalScrollIndicator={false}
         onEndReached={fetchNextPage}
         scrollEventThrottle={16}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.9}
         ListFooterComponent={() =>
           isFetchingNextPage ? (
             <ActivityIndicator size="small" color="red" />
