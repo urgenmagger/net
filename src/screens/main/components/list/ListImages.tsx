@@ -56,7 +56,7 @@ export const ListImages: FC = () => {
         showsHorizontalScrollIndicator={false}
         onEndReached={fetchNextPage}
         scrollEventThrottle={16}
-        onEndReachedThreshold={0.9}
+        onEndReachedThreshold={0.1}
         ListFooterComponent={() =>
           isFetchingNextPage ? (
             <ActivityIndicator size="small" color="red" />

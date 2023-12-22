@@ -7,9 +7,10 @@ interface ReturnHook {
   data?: Photo;
   isLoading?: boolean;
   error?: unknown;
+  isError?: boolean;
 }
 export const useGetImageById = (id: string): ReturnHook => {
-  const { isLoading, data, error } = useQuery<Photo, unknown>({
+  const { isLoading, data, error, isError } = useQuery<Photo, unknown>({
     queryKey: ['image', id],
     queryFn: async () => {
       const response = await getImageByIdService.get(id);
@@ -17,5 +18,5 @@ export const useGetImageById = (id: string): ReturnHook => {
     },
   });
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, isError };
 };
