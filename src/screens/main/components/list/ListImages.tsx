@@ -11,9 +11,6 @@ import {
 import { useGetImages } from 'api/hooks/useGetImages';
 import { Photo } from 'common/types';
 
-const { width } = Dimensions.get('window');
-const itemMargin = 10;
-
 export const ListImages: FC = () => {
   const componentStyle = styles();
   const { data, fetchNextPage, isFetchingNextPage } = useGetImages();
@@ -59,16 +56,14 @@ const styles = () =>
     },
     itemContainer: {
       flex: 1,
-      margin: itemMargin,
+      margin: 10,
     },
     image: {
       height: 200,
       borderRadius: 8,
       resizeMode: 'cover',
-      width: (width - (2 + 1) * itemMargin) / 2,
     },
     columnWrapper: {
-      margin: itemMargin / 2,
       justifyContent: 'space-between',
     },
   });
