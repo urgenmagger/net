@@ -1,5 +1,5 @@
 import { useGetImageById } from 'api/hooks/useGetImageById';
-import { SERVER_ERROR } from 'common/C';
+import { MOCK_PHOTO, MOCK_PHOTO_DETAILS, SERVER_ERROR } from 'common/C';
 import { AlertCustom } from 'common/components/AlertCustom';
 import { FullScreenLoader } from 'common/components/FullScreenLoader';
 import { FC, useEffect, useRef } from 'react';
@@ -39,11 +39,9 @@ export const Details: FC<Props> = ({ route }) => {
       <View style={{ ...componentStyle.container }}>
         <StatusBar translucent backgroundColor="transparent" />
         <ImageBackground
-          source={{ uri: data?.image }}
+          source={{ uri: isLoading ? MOCK_PHOTO_DETAILS : data?.image }}
           style={{ ...componentStyle.imageBackground }}
-        >
-          {/* Ваше содержимое, которое будет отображаться поверх изображения */}
-        </ImageBackground>
+        ></ImageBackground>
       </View>
       <Toast />
     </>

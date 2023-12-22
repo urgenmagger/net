@@ -1,15 +1,13 @@
 import { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 
-import { useGetImages } from 'api/hooks/useGetImages';
 import { ListImages } from './components/list/ListImages';
 
-interface Props {}
-
-export const MainScreen: FC<Props> = () => {
+export const MainScreen: FC = () => {
   const componentStyle = styles();
   return (
     <View style={{ ...componentStyle.container }}>
+      <StatusBar translucent backgroundColor="transparent" />
       <ListImages />
     </View>
   );

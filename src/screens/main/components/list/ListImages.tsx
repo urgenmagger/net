@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import {
   View,
   Image,
@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Photo } from 'common/types';
 import { useGetImages } from 'api/hooks/useGetImages';
 import { RootStackNavigationProp, Screens } from 'navigation/types';
+import { MOCK_PHOTO } from 'common/C';
 
 export const ListImages: FC = () => {
   const componentStyle = styles();
@@ -37,7 +38,7 @@ export const ListImages: FC = () => {
             style={{ ...componentStyle.itemContainer }}
           >
             <Image
-              source={{ uri: item?.image }}
+              source={{ uri: isLoading ? MOCK_PHOTO : item?.image }}
               style={{ ...componentStyle.image }}
             />
           </TouchableOpacity>
@@ -45,6 +46,7 @@ export const ListImages: FC = () => {
       </>
     );
   };
+
   return (
     <View style={{ ...componentStyle.container }}>
       <FlatList
@@ -56,7 +58,7 @@ export const ListImages: FC = () => {
         showsHorizontalScrollIndicator={false}
         onEndReached={fetchNextPage}
         scrollEventThrottle={16}
-        onEndReachedThreshold={0.1}
+        onEndReachedThreshold={0.5}
         ListFooterComponent={() =>
           isFetchingNextPage ? (
             <ActivityIndicator size="small" color="red" />
