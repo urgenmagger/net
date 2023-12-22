@@ -1,16 +1,10 @@
-import { useGetImageById } from 'api/hooks/useGetImageById';
-import { MOCK_PHOTO, MOCK_PHOTO_DETAILS, SERVER_ERROR } from 'common/C';
-import { AlertCustom } from 'common/components/AlertCustom';
-import { FullScreenLoader } from 'common/components/FullScreenLoader';
-import { FC, useEffect, useRef } from 'react';
-import {
-  Text,
-  StyleSheet,
-  View,
-  ImageBackground,
-  StatusBar,
-} from 'react-native';
+import { FC } from 'react';
 import Toast from 'react-native-toast-message';
+import { View, StatusBar, StyleSheet, ImageBackground } from 'react-native';
+
+import { useGetImageById } from 'api/hooks/useGetImageById';
+import { MOCK_PHOTO_DETAILS, SERVER_ERROR } from 'common/C';
+import { FullScreenLoader } from 'common/components/FullScreenLoader';
 
 interface Props {
   route: {
@@ -22,7 +16,6 @@ interface Props {
 
 export const Details: FC<Props> = ({ route }) => {
   const { photoId } = route.params;
-  const alertRef = useRef();
   const { data, isLoading, error, isError } = useGetImageById(photoId);
 
   if (isError) {
